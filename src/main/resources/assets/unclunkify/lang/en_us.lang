@@ -1,0 +1,9 @@
+itemGroup.unclunkify=Unclunkify
+
+tile.unclunkify:machine0.name=High-Temperature Furnace
+
+unclunkify.gui.high_temp_furnace=High-Temp Furnace
+
+unclunkify.tooltip.heat=Heat: %s
+unclunkify.tooltip.burn_time=Burn Time: %.1fs
+unclunkify.tooltip.progress=Progress: %s
