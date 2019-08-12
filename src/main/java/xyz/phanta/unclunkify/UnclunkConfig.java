@@ -7,6 +7,7 @@ public class UnclunkConfig {
 
     public static final BreakSpeed breakSpeedConfig = new BreakSpeed();
     public static final HighTempFurnace highTempFurnaceConfig = new HighTempFurnace();
+    public static final Creeper creeperConfig = new Creeper();
 
     public static class BreakSpeed {
 
@@ -49,6 +50,18 @@ public class UnclunkConfig {
         @Config.Comment("The percentage of work that decays each tick the furnace is not heated.")
         @Config.RangeDouble(min = 0D, max = 1D)
         public double workDecayRate = 0.01D;
+
+    }
+
+    public static class Creeper {
+
+        @Config.Comment("The probability that a creeper will drop gunpowder upon exploding. Set to 0 to disable.")
+        @Config.RangeDouble(min = 0D, max = 1D)
+        public double explodeDropRate = 1D;
+
+        @Config.Comment("The maximum number of gunpowder a creeper will drop.")
+        @Config.RangeInt(min = 1)
+        public int explodeDropMax = 1;
 
     }
 

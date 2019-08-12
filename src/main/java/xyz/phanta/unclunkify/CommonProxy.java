@@ -7,12 +7,14 @@ import io.github.phantamanta44.libnine.recipe.output.ItemStackOutput;
 import io.github.phantamanta44.libnine.recipe.type.SmeltingRecipe;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.oredict.OreDictionary;
+import xyz.phanta.unclunkify.event.CreeperExplosionHandler;
 import xyz.phanta.unclunkify.recipe.OreDoublingRecipe;
 
 import java.util.Arrays;
@@ -22,6 +24,7 @@ import java.util.stream.Collectors;
 public class CommonProxy {
 
     public void onPreInit(FMLPreInitializationEvent event) {
+        MinecraftForge.EVENT_BUS.register(new CreeperExplosionHandler());
         LibNine.PROXY.getRecipeManager().addType(OreDoublingRecipe.class);
     }
 
