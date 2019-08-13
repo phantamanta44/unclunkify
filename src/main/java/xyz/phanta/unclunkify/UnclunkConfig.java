@@ -7,6 +7,7 @@ public class UnclunkConfig {
 
     public static final BreakSpeed breakSpeedConfig = new BreakSpeed();
     public static final HighTempFurnace highTempFurnaceConfig = new HighTempFurnace();
+    public static final MiningExplosive miningExplosiveConfig = new MiningExplosive();
     public static final Creeper creeperConfig = new Creeper();
 
     public static class BreakSpeed {
@@ -50,6 +51,24 @@ public class UnclunkConfig {
         @Config.Comment("The percentage of work that decays each tick the furnace is not heated.")
         @Config.RangeDouble(min = 0D, max = 1D)
         public double workDecayRate = 0.01D;
+
+    }
+
+    public static class MiningExplosive {
+
+        @Config.Comment({
+                "The speed at which the explosive is thrown. For comparison, vanilla snowballs have speed 1.5.",
+                "Note that this also determines how far the projectile can travel."
+        })
+        public double throwSpeed = 1.0D;
+
+        @Config.Comment("The strength of the explosion. For comparison, vanilla TNT has strength 4.0.")
+        @Config.RangeDouble(min = 0)
+        public double explosionStrength = 2.5D;
+
+        @Config.Comment("The level of fortune used by mining explosive drops. Set to 0 to disable fortune effect.")
+        @Config.RangeInt(min = 0, max = 3)
+        public int fortuneLevel = 2;
 
     }
 

@@ -9,6 +9,7 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
+import xyz.phanta.unclunkify.UnclunkConfig;
 import xyz.phanta.unclunkify.constant.LangConst;
 import xyz.phanta.unclunkify.entity.EntityMiningExplosive;
 import xyz.phanta.unclunkify.init.UnclunkItems;
@@ -25,8 +26,8 @@ public class ItemMisc extends L9ItemSubs {
         if (Type.getForStack(stack) == Type.MINING_EXPLOSIVE) {
             if (!world.isRemote) {
                 stack.shrink(1);
-                EntityMiningExplosive entity = new EntityMiningExplosive(
-                        world, player.getPositionEyes(1F), player.getLookVec(), player);
+                EntityMiningExplosive entity = new EntityMiningExplosive(world, player.getPositionEyes(1F),
+                        player.getLookVec().scale(UnclunkConfig.miningExplosiveConfig.throwSpeed), player);
                 world.spawnEntity(entity);
                 world.playSound(null, entity.posX, entity.posY, entity.posZ, SoundEvents.ENTITY_SPLASH_POTION_THROW,
                         SoundCategory.NEUTRAL, 0.5F, 0.75F);

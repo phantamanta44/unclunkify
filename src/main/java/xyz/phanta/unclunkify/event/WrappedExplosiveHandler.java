@@ -33,9 +33,9 @@ public class WrappedExplosiveHandler {
                 if (!explosion.world.isRemote) {
                     Vec3d pos = explosion.getPosition();
                     for (EntityPlayer player : explosion.world.playerEntities) {
-                        if (player.getDistanceSq(pos.x, pos.y, pos.z) < 4096.0D) {
+                        if (player.getDistanceSq(pos.x, pos.y, pos.z) < 4096D) {
                             ((EntityPlayerMP)player).connection.sendPacket(
-                                    new SPacketExplosion(pos.x, pos.y, pos.z, 2.5F, explosion.getAffectedBlockPositions(),
+                                    new SPacketExplosion(pos.x, pos.y, pos.z, explosion.size, explosion.getAffectedBlockPositions(),
                                             explosion.getPlayerKnockbackMap().get(player)));
                         }
                     }

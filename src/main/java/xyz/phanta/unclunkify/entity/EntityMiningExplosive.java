@@ -11,6 +11,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.ExplosionEvent;
+import xyz.phanta.unclunkify.UnclunkConfig;
 import xyz.phanta.unclunkify.Unclunkify;
 
 import javax.annotation.Nullable;
@@ -35,7 +36,8 @@ public class EntityMiningExplosive extends EntityThrowable {
         if (!world.isRemote) {
             Vec3d explPos = result.hitVec;
             Unclunkify.PROXY.getWrappedExplosiveHandler().handle(
-                    new Explosion(world, thrower, explPos.x, explPos.y, explPos.z, 2.5F, false, true), this::doExplosion);
+                    new Explosion(world, thrower, explPos.x, explPos.y, explPos.z,
+                            (float)UnclunkConfig.miningExplosiveConfig.explosionStrength, false, true), this::doExplosion);
             setDead();
         }
     }
@@ -48,7 +50,7 @@ public class EntityMiningExplosive extends EntityThrowable {
             if (state.getMaterial() != Material.AIR) {
                 Block block = state.getBlock();
                 if (block.canDropFromExplosion(explosion)) {
-                    block.dropBlockAsItemWithChance(world, pos, state, 1F, 3);
+                    block.dropBlockAsItemWithChance(world, pos, state, 1F, UnclunkConfig.miningExplosiveConfig.fortuneLevel);
                 }
                 block.onBlockExploded(world, pos, explosion);
             }
