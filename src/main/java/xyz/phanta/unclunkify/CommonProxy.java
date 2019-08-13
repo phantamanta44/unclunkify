@@ -15,6 +15,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.oredict.OreDictionary;
 import xyz.phanta.unclunkify.event.CreeperExplosionHandler;
+import xyz.phanta.unclunkify.event.WrappedExplosiveHandler;
 import xyz.phanta.unclunkify.recipe.OreDoublingRecipe;
 
 import java.util.Arrays;
@@ -23,8 +24,11 @@ import java.util.stream.Collectors;
 
 public class CommonProxy {
 
+    private final WrappedExplosiveHandler wrappedExplosiveHandler = new WrappedExplosiveHandler();
+
     public void onPreInit(FMLPreInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(new CreeperExplosionHandler());
+        MinecraftForge.EVENT_BUS.register(wrappedExplosiveHandler);
         LibNine.PROXY.getRecipeManager().addType(OreDoublingRecipe.class);
     }
 
@@ -74,6 +78,10 @@ public class CommonProxy {
                 odrl.add(new OreDoublingRecipe(input, output));
             }
         }
+    }
+
+    public WrappedExplosiveHandler getWrappedExplosiveHandler() {
+        return wrappedExplosiveHandler;
     }
 
 }
