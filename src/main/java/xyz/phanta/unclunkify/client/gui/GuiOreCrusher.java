@@ -5,37 +5,37 @@ import net.minecraft.client.resources.I18n;
 import xyz.phanta.unclunkify.client.gui.base.GuiProcessing;
 import xyz.phanta.unclunkify.constant.LangConst;
 import xyz.phanta.unclunkify.constant.ResConst;
-import xyz.phanta.unclunkify.inventory.ContainerHighTempFurnace;
+import xyz.phanta.unclunkify.inventory.ContainerOreCrusher;
 
-public class GuiHighTempFurnace extends GuiProcessing {
+public class GuiOreCrusher extends GuiProcessing {
 
-    public GuiHighTempFurnace(ContainerHighTempFurnace cont) {
-        super(cont, ResConst.GUI_HIGH_TEMP_FURNACE);
+    public GuiOreCrusher(ContainerOreCrusher cont) {
+        super(cont, ResConst.GUI_ORE_CRUSHER);
     }
 
     @Override
     protected String getContainerNameKey() {
-        return LangConst.GUI_HIGH_TEMP_FURNACE;
+        return LangConst.GUI_ORE_CRUSHER;
     }
 
     @Override
     protected TextureRegion getHeatTexture() {
-        return ResConst.GUI_HIGH_TEMP_FURNACE_HEAT;
+        return ResConst.GUI_ORE_CRUSHER_HEAT;
     }
 
     @Override
     protected TextureRegion getBurnTexture() {
-        return ResConst.GUI_HIGH_TEMP_FURNACE_BURN;
+        return ResConst.GUI_ORE_CRUSHER_BURN;
     }
 
     @Override
     protected TextureRegion getProgressTexture() {
-        return ResConst.GUI_HIGH_TEMP_FURNACE_PROGRESS;
+        return ResConst.GUI_ORE_CRUSHER_PROGRESS;
     }
 
     @Override
     protected String formatHeat(String heat) {
-        return I18n.format(LangConst.TT_HEAT, heat);
+        return I18n.format(LangConst.TT_SPIN_UP, heat);
     }
 
 }

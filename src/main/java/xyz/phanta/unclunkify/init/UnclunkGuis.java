@@ -10,8 +10,10 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import xyz.phanta.unclunkify.Unclunkify;
 import xyz.phanta.unclunkify.client.gui.GuiHighTempFurnace;
+import xyz.phanta.unclunkify.client.gui.GuiOreCrusher;
 import xyz.phanta.unclunkify.constant.LangConst;
 import xyz.phanta.unclunkify.inventory.ContainerHighTempFurnace;
+import xyz.phanta.unclunkify.inventory.ContainerOreCrusher;
 
 import java.util.Objects;
 
@@ -19,11 +21,15 @@ public class UnclunkGuis {
 
     public static final GuiIdentity<ContainerHighTempFurnace, GuiHighTempFurnace> HIGH_TEMP_FURNACE
             = new GuiIdentity<>(LangConst.CONT_HIGH_TEMP_FURNACE, ContainerHighTempFurnace.class);
+    public static final GuiIdentity<ContainerOreCrusher, GuiOreCrusher> ORE_CRUSHER
+            = new GuiIdentity<>(LangConst.CONT_ORE_CRUSHER, ContainerOreCrusher.class);
 
     @InitMe(Unclunkify.MOD_ID)
     public static void initCommon() {
         LibNine.PROXY.getRegistrar().queueGuiServerReg(HIGH_TEMP_FURNACE,
                 (p, w, x, y, z) -> new ContainerHighTempFurnace(getTile(w, x, y, z), p.inventory));
+        LibNine.PROXY.getRegistrar().queueGuiServerReg(ORE_CRUSHER,
+                (p, w, x, y, z) -> new ContainerOreCrusher(getTile(w, x, y, z), p.inventory));
     }
 
     @SideOnly(Side.CLIENT)
@@ -31,6 +37,8 @@ public class UnclunkGuis {
     public static void initClient() {
         LibNine.PROXY.getRegistrar().queueGuiClientReg(HIGH_TEMP_FURNACE,
                 (c, p, w, x, y, z) -> new GuiHighTempFurnace(c));
+        LibNine.PROXY.getRegistrar().queueGuiClientReg(ORE_CRUSHER,
+                (c, p, w, x, y, z) -> new GuiOreCrusher(c));
     }
 
     @SuppressWarnings("unchecked")

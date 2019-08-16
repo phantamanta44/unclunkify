@@ -24,6 +24,7 @@ import xyz.phanta.unclunkify.constant.LangConst;
 import xyz.phanta.unclunkify.init.UnclunkBlocks;
 import xyz.phanta.unclunkify.init.UnclunkGuis;
 import xyz.phanta.unclunkify.tile.TileHighTempFurnace;
+import xyz.phanta.unclunkify.tile.TileOreCrusher;
 import xyz.phanta.unclunkify.tile.base.TileMachine;
 
 import javax.annotation.Nullable;
@@ -92,33 +93,38 @@ public class BlockMachine extends L9BlockStated {
 
     @Override
     public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand) {
-        if (state.getValue(TYPE) == Type.HIGH_TEMP_FURNACE) {
-            TileMachine tile = Objects.requireNonNull(getTileEntity(world, pos));
-            if (tile.isActive()) {
-                Vec3d center = WorldUtils.getBlockCenter(pos);
-                if (rand.nextDouble() < 0.1D) {
-                    world.playSound(center.x, center.y, center.z,
-                            SoundEvents.BLOCK_FURNACE_FIRE_CRACKLE, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
+        switch (state.getValue(TYPE)) {
+            case HIGH_TEMP_FURNACE:
+            case ORE_CRUSHER: {
+                TileMachine tile = Objects.requireNonNull(getTileEntity(world, pos));
+                if (tile.isActive()) {
+                    Vec3d center = WorldUtils.getBlockCenter(pos);
+                    if (rand.nextDouble() < 0.1D) {
+                        world.playSound(center.x, center.y, center.z,
+                                SoundEvents.BLOCK_FURNACE_FIRE_CRACKLE, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
+                    }
+                    EnumFacing dir = tile.getFrontFace();
+                    Vec3d pPos = center.add(dir.getXOffset() * 0.52D, -0.125D - rand.nextDouble() * 0.25D, dir.getZOffset() * 0.52D);
+                    switch (dir.getAxis()) {
+                        case X:
+                            pPos = pPos.add(0D, 0D, rand.nextDouble() * 0.6D - 0.3D);
+                            break;
+                        case Z:
+                            pPos = pPos.add(rand.nextDouble() * 0.6D - 0.3D, 0D, 0D);
+                            break;
+                    }
+                    world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pPos.x, pPos.y, pPos.z, 0D, 0D, 0D);
+                    world.spawnParticle(EnumParticleTypes.FLAME, pPos.x, pPos.y, pPos.z, 0D, 0D, 0D);
                 }
-                EnumFacing dir = tile.getFrontFace();
-                Vec3d pPos = center.add(dir.getXOffset() * 0.52D, -0.125D - rand.nextDouble() * 0.25D, dir.getZOffset() * 0.52D);
-                switch (dir.getAxis()) {
-                    case X:
-                        pPos = pPos.add(0D, 0D, rand.nextDouble() * 0.6D - 0.3D);
-                        break;
-                    case Z:
-                        pPos = pPos.add(rand.nextDouble() * 0.6D - 0.3D, 0D, 0D);
-                        break;
-                }
-                world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pPos.x, pPos.y, pPos.z, 0D, 0D, 0D);
-                world.spawnParticle(EnumParticleTypes.FLAME, pPos.x, pPos.y, pPos.z, 0D, 0D, 0D);
+                break;
             }
         }
     }
 
     public enum Type implements IStringSerializable {
 
-        HIGH_TEMP_FURNACE(TileHighTempFurnace::new, UnclunkGuis.HIGH_TEMP_FURNACE);
+        HIGH_TEMP_FURNACE(TileHighTempFurnace::new, UnclunkGuis.HIGH_TEMP_FURNACE),
+        ORE_CRUSHER(TileOreCrusher::new, UnclunkGuis.ORE_CRUSHER);
 
         public static final Type[] VALUES = values();
 

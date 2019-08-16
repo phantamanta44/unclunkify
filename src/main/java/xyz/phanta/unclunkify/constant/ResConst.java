@@ -16,4 +16,10 @@ public class ResConst {
     public static final TextureRegion GUI_HIGH_TEMP_FURNACE_BURN = GUI_HIGH_TEMP_FURNACE.getRegion(176, 12, 39, 14);
     public static final TextureRegion GUI_HIGH_TEMP_FURNACE_PROGRESS = GUI_HIGH_TEMP_FURNACE.getRegion(176, 26, 22, 16);
 
+    public static final TextureResource GUI_ORE_CRUSHER
+            = Unclunkify.INSTANCE.newTextureResource(GUI_KEY + "ore_crusher.png", 256, 256);
+    public static final TextureRegion GUI_ORE_CRUSHER_HEAT = GUI_ORE_CRUSHER.getRegion(176, 0, 12, 12);
+    public static final TextureRegion GUI_ORE_CRUSHER_BURN = GUI_ORE_CRUSHER.getRegion(176, 12, 39, 14);
+    public static final TextureRegion GUI_ORE_CRUSHER_PROGRESS = GUI_ORE_CRUSHER.getRegion(176, 26, 22, 16);
+
 }

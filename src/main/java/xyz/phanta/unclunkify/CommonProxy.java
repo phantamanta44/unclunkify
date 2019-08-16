@@ -5,6 +5,7 @@ import io.github.phantamanta44.libnine.recipe.IRecipeList;
 import io.github.phantamanta44.libnine.recipe.input.ItemStackInput;
 import io.github.phantamanta44.libnine.recipe.output.ItemStackOutput;
 import io.github.phantamanta44.libnine.recipe.type.SmeltingRecipe;
+import io.github.phantamanta44.libnine.util.helper.OreDictUtils;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
@@ -16,7 +17,7 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.oredict.OreDictionary;
 import xyz.phanta.unclunkify.event.CreeperExplosionHandler;
 import xyz.phanta.unclunkify.event.WrappedExplosiveHandler;
-import xyz.phanta.unclunkify.recipe.OreDoublingRecipe;
+import xyz.phanta.unclunkify.recipe.OreCrushingRecipe;
 
 import java.util.Arrays;
 import java.util.Set;
@@ -27,9 +28,9 @@ public class CommonProxy {
     private final WrappedExplosiveHandler wrappedExplosiveHandler = new WrappedExplosiveHandler();
 
     public void onPreInit(FMLPreInitializationEvent event) {
+        LibNine.PROXY.getRecipeManager().addType(OreCrushingRecipe.class);
         MinecraftForge.EVENT_BUS.register(new CreeperExplosionHandler());
         MinecraftForge.EVENT_BUS.register(wrappedExplosiveHandler);
-        LibNine.PROXY.getRecipeManager().addType(OreDoublingRecipe.class);
     }
 
     public void onInit(FMLInitializationEvent event) {
@@ -59,9 +60,9 @@ public class CommonProxy {
     }
 
     public void onLoadComplete(FMLLoadCompleteEvent event) {
-        Unclunkify.LOGGER.info("Collecting ore smelting recipes...");
-        IRecipeList<ItemStack, ItemStackInput, ItemStackOutput, OreDoublingRecipe> odrl
-                = LibNine.PROXY.getRecipeManager().getRecipeList(OreDoublingRecipe.class);
+        Unclunkify.LOGGER.info("Collecting ore recipes...");
+        IRecipeList<ItemStack, ItemStackInput, ItemStackOutput, OreCrushingRecipe> odrl
+                = LibNine.PROXY.getRecipeManager().getRecipeList(OreCrushingRecipe.class);
         for (SmeltingRecipe recipe : LibNine.PROXY.getRecipeManager().getRecipeList(SmeltingRecipe.class).recipes()) {
             ItemStack input = recipe.input().getMatcher().getVisual();
             ItemStack output = recipe.mapToOutput(input).getOutput();
@@ -70,13 +71,14 @@ public class CommonProxy {
                     .filter(o -> o.startsWith("ingot"))
                     .map(o -> o.substring(5))
                     .collect(Collectors.toSet());
-            if (Arrays.stream(OreDictionary.getOreIDs(input))
+            Arrays.stream(OreDictionary.getOreIDs(input))
                     .mapToObj(OreDictionary::getOreName)
                     .filter(o -> o.startsWith("ore"))
                     .map(o -> o.substring(3))
-                    .anyMatch(oreNames::contains)) {
-                odrl.add(new OreDoublingRecipe(input, output));
-            }
+                    .filter(oreNames::contains)
+                    .findFirst()
+                    .map(o -> OreDictUtils.getStack("dust" + o, 2))
+                    .ifPresent(dust -> odrl.add(new OreCrushingRecipe(input, dust)));
         }
     }
 
