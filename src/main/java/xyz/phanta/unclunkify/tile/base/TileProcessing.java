@@ -14,7 +14,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
-import xyz.phanta.unclunkify.UnclunkConfig;
 
 import javax.annotation.Nullable;
 import java.util.Objects;
@@ -60,6 +59,16 @@ public abstract class TileProcessing<R extends IRcp<ItemStack, ItemStackInput, I
 
     protected abstract IRecipeList<ItemStack, ItemStackInput, ItemStackOutput, R> getRecipeList();
 
+    protected abstract float getFuelMultiplier();
+
+    protected abstract int getMaxHeatTicks();
+
+    protected abstract float getMaxWorkRate();
+
+    protected abstract int getHeatDecayRate();
+
+    protected abstract float getWorkDecayRate();
+
     public IItemHandlerModifiable getInputSlot() {
         return inputSlot;
     }
@@ -82,7 +91,7 @@ public abstract class TileProcessing<R extends IRcp<ItemStack, ItemStackInput, I
     }
 
     public float getHeatFraction() {
-        return heat.getInt() / (float)UnclunkConfig.highTempFurnaceConfig.maxHeatTicks;
+        return heat.getInt() / getMaxHeatTicks();
     }
 
     public float getWorkFraction() {
@@ -101,18 +110,18 @@ public abstract class TileProcessing<R extends IRcp<ItemStack, ItemStackInput, I
             int currentHeat = heat.getInt();
             if (burnTime.getInt() > 0) {
                 burnTime.postincrement(-1);
-                currentHeat = Math.min(currentHeat + 1, UnclunkConfig.highTempFurnaceConfig.maxHeatTicks);
+                currentHeat = Math.min(currentHeat + 1, getMaxHeatTicks());
             } else {
                 int newBurnTime = TileEntityFurnace.getItemBurnTime(fuelSlot.getStackInSlot());
                 if (newBurnTime > 0) {
-                    newBurnTime *= (float)UnclunkConfig.highTempFurnaceConfig.fuelMultiplier;
+                    newBurnTime *= getFuelMultiplier();
                     fuelSlot.getStackInSlot().shrink(1);
                     burnTime.setInt(newBurnTime);
                     maxBurnTime.setInt(newBurnTime);
-                    currentHeat = Math.min(currentHeat + 1, UnclunkConfig.highTempFurnaceConfig.maxHeatTicks);
+                    currentHeat = Math.min(currentHeat + 1, getMaxHeatTicks());
                     dirty = true;
                 } else {
-                    currentHeat = Math.max(currentHeat - UnclunkConfig.highTempFurnaceConfig.heatDecayRate, 0);
+                    currentHeat = Math.max(currentHeat - getHeatDecayRate(), 0);
                 }
             }
             if (heat.getInt() != currentHeat) {
@@ -124,8 +133,7 @@ public abstract class TileProcessing<R extends IRcp<ItemStack, ItemStackInput, I
                 Objects.requireNonNull(cachedOutput);
                 float currentWork = work.getFloat();
                 if (currentHeat > 0) {
-                    currentWork += (currentHeat / (float)UnclunkConfig.highTempFurnaceConfig.maxHeatTicks)
-                            * (float)UnclunkConfig.highTempFurnaceConfig.maxHeatWorkRate;
+                    currentWork += getMaxWorkRate() * currentHeat / getMaxHeatTicks();
                     if (currentWork >= 1F) {
                         currentWork = 0F;
                         inputSlot.setStackInSlot(cachedRecipe.input().consume(inputSlot.getStackInSlot()));
@@ -138,7 +146,7 @@ public abstract class TileProcessing<R extends IRcp<ItemStack, ItemStackInput, I
                         dirty = true;
                     }
                 } else {
-                    currentWork = Math.max(currentWork - (float)UnclunkConfig.highTempFurnaceConfig.workDecayRate, 0F);
+                    currentWork = Math.max(currentWork - getWorkDecayRate(), 0F);
                 }
                 if (currentWork != work.getFloat()) {
                     work.setFloat(currentWork);

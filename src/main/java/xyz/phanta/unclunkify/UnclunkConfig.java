@@ -7,6 +7,7 @@ public class UnclunkConfig {
 
     public static final BreakSpeed breakSpeedConfig = new BreakSpeed();
     public static final HighTempFurnace highTempFurnaceConfig = new HighTempFurnace();
+    public static final OreCrusher oreCrusherConfig = new OreCrusher();
     public static final MiningExplosive miningExplosiveConfig = new MiningExplosive();
     public static final Creeper creeperConfig = new Creeper();
 
@@ -49,6 +50,30 @@ public class UnclunkConfig {
         public int heatDecayRate = 5;
 
         @Config.Comment("The percentage of work that decays each tick the furnace is not heated.")
+        @Config.RangeDouble(min = 0D, max = 1D)
+        public double workDecayRate = 0.01D;
+
+    }
+
+    public static class OreCrusher {
+
+        @Config.Comment("The multiplier for furnace fuel value.")
+        @Config.RangeDouble(min = 0)
+        public double fuelMultiplier = 1D;
+
+        @Config.Comment("The number of ticks required to reach max spin-up.")
+        @Config.RangeInt(min = 1)
+        public int maxSpinUpTicks = 1800;
+
+        @Config.Comment("The percentage of work done per tick at max spin-up.")
+        @Config.RangeDouble(min = 0D, max = 1D)
+        public double maxSpinUpWorkRate = 0.01D;
+
+        @Config.Comment("The amount of spin-up that decays each tick the crusher is not fueled.")
+        @Config.RangeInt(min = 1)
+        public int spinUpDecayRate = 5;
+
+        @Config.Comment("The percentage of work that decays each tick the crusher is not spun-up.")
         @Config.RangeDouble(min = 0D, max = 1D)
         public double workDecayRate = 0.01D;
 

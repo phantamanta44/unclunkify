@@ -8,6 +8,7 @@ import io.github.phantamanta44.libnine.recipe.type.SmeltingRecipe;
 import io.github.phantamanta44.libnine.tile.RegisterTile;
 import io.github.phantamanta44.libnine.util.LazyConstant;
 import net.minecraft.item.ItemStack;
+import xyz.phanta.unclunkify.UnclunkConfig;
 import xyz.phanta.unclunkify.Unclunkify;
 import xyz.phanta.unclunkify.tile.base.TileProcessing;
 
@@ -20,6 +21,31 @@ public class TileHighTempFurnace extends TileProcessing<SmeltingRecipe> {
     @Override
     protected IRecipeList<ItemStack, ItemStackInput, ItemStackOutput, SmeltingRecipe> getRecipeList() {
         return RECIPE_LIST.get();
+    }
+
+    @Override
+    protected float getFuelMultiplier() {
+        return (float)UnclunkConfig.highTempFurnaceConfig.fuelMultiplier;
+    }
+
+    @Override
+    protected int getMaxHeatTicks() {
+        return UnclunkConfig.highTempFurnaceConfig.maxHeatTicks;
+    }
+
+    @Override
+    protected float getMaxWorkRate() {
+        return (float)UnclunkConfig.highTempFurnaceConfig.maxHeatWorkRate;
+    }
+
+    @Override
+    protected int getHeatDecayRate() {
+        return UnclunkConfig.highTempFurnaceConfig.heatDecayRate;
+    }
+
+    @Override
+    protected float getWorkDecayRate() {
+        return (float)UnclunkConfig.highTempFurnaceConfig.workDecayRate;
     }
 
 }
