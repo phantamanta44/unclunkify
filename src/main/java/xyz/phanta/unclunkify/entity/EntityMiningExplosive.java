@@ -1,11 +1,13 @@
 package xyz.phanta.unclunkify.entity;
 
+import io.github.phantamanta44.libnine.util.math.MathUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Explosion;
@@ -21,7 +23,7 @@ public class EntityMiningExplosive extends EntityThrowable {
 
     public EntityMiningExplosive(World world, Vec3d pos, Vec3d vel, @Nullable EntityLivingBase thrower) {
         super(world, pos.x, pos.y, pos.z);
-        setVelocity(vel.x, vel.y, vel.z);
+        initVelocity(vel);
         if (thrower != null) {
             this.thrower = thrower;
         }
@@ -31,6 +33,16 @@ public class EntityMiningExplosive extends EntityThrowable {
         super(world);
     }
 
+    // adapted from vanilla's setVelocity because that only exists on the client
+    private void initVelocity(Vec3d vel) {
+        motionX = vel.x;
+        motionY = vel.y;
+        motionZ = vel.z;
+        prevRotationYaw = rotationYaw = (float)(MathHelper.atan2(motionX, motionZ) * MathUtils.R2D_D);
+        prevRotationPitch = rotationPitch
+                = (float)(MathHelper.atan2(motionY, MathHelper.sqrt(motionX * motionX + motionZ * motionZ)) * MathUtils.R2D_D);
+    }
+    
     @Override
     protected void onImpact(RayTraceResult result) {
         if (!world.isRemote) {
