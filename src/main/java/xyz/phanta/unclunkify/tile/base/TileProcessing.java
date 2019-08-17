@@ -8,6 +8,7 @@ import io.github.phantamanta44.libnine.recipe.input.ItemStackInput;
 import io.github.phantamanta44.libnine.recipe.output.ItemStackOutput;
 import io.github.phantamanta44.libnine.util.data.serialization.AutoSerialize;
 import io.github.phantamanta44.libnine.util.data.serialization.IDatum;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.EnumFacing;
@@ -113,10 +114,16 @@ public abstract class TileProcessing<R extends IRcp<ItemStack, ItemStackInput, I
                 currentHeat = Math.min(currentHeat + 1, getMaxHeatTicks());
                 dirty = true;
             } else {
-                int newBurnTime = TileEntityFurnace.getItemBurnTime(fuelSlot.getStackInSlot());
+                ItemStack fuelStack = fuelSlot.getStackInSlot();
+                int newBurnTime = TileEntityFurnace.getItemBurnTime(fuelStack);
                 if (newBurnTime > 0) {
                     newBurnTime *= getFuelMultiplier();
-                    fuelSlot.getStackInSlot().shrink(1);
+                    Item fuelItem = fuelStack.getItem();
+                    if (fuelItem.hasContainerItem(fuelStack)) {
+                        fuelSlot.setStackInSlot(fuelItem.getContainerItem(fuelStack));
+                    } else {
+                        fuelStack.shrink(1);
+                    }
                     burnTime.setInt(newBurnTime);
                     maxBurnTime.setInt(newBurnTime);
                     currentHeat = Math.min(currentHeat + 1, getMaxHeatTicks());
