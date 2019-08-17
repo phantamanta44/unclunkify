@@ -9,7 +9,7 @@ import net.minecraftforge.fml.common.event.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.Logger;
-import xyz.phanta.unclunkify.block.BlockMachine;
+import xyz.phanta.unclunkify.item.ItemMisc;
 
 @Mod(modid = Unclunkify.MOD_ID, version = Unclunkify.VERSION, useMetadata = true)
 public class Unclunkify extends Virtue {
@@ -31,7 +31,7 @@ public class Unclunkify extends Virtue {
     public static Logger LOGGER;
 
     public Unclunkify() {
-        super(MOD_ID, new L9CreativeTab("unclunkify", () -> BlockMachine.Type.HIGH_TEMP_FURNACE.newStack(1)));
+        super(MOD_ID, new L9CreativeTab("unclunkify", () -> ItemMisc.Type.MINING_EXPLOSIVE.newStack(1)));
     }
 
     @Mod.EventHandler
