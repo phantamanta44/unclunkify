@@ -1,0 +1,20 @@
+{
+  "9s": "pi",
+  "archetype": {
+    "parent": "unclunkify:block/machine"
+  },
+  "mutations": {
+    "type": {
+      "HIGH_TEMP_FURNACE": {
+        "textures": {
+          "face": "unclunkify:blocks/machine/high_temp_furnace"
+        }
+      },
+      "ORE_CRUSHER": {
+        "textures": {
+          "face": "unclunkify:blocks/machine/ore_crusher"
+        }
+      }
+    }
+  }
+}

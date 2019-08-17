@@ -2,6 +2,7 @@ package xyz.phanta.unclunkify.block;
 
 import io.github.phantamanta44.libnine.block.L9BlockStated;
 import io.github.phantamanta44.libnine.gui.GuiIdentity;
+import io.github.phantamanta44.libnine.item.L9ItemBlock;
 import io.github.phantamanta44.libnine.tile.L9TileEntity;
 import io.github.phantamanta44.libnine.util.collection.Accrue;
 import io.github.phantamanta44.libnine.util.world.WorldBlockPos;
@@ -23,6 +24,7 @@ import xyz.phanta.unclunkify.Unclunkify;
 import xyz.phanta.unclunkify.constant.LangConst;
 import xyz.phanta.unclunkify.init.UnclunkBlocks;
 import xyz.phanta.unclunkify.init.UnclunkGuis;
+import xyz.phanta.unclunkify.item.block.ItemBlockMachine;
 import xyz.phanta.unclunkify.tile.TileHighTempFurnace;
 import xyz.phanta.unclunkify.tile.TileOreCrusher;
 import xyz.phanta.unclunkify.tile.base.TileMachine;
@@ -53,6 +55,11 @@ public class BlockMachine extends L9BlockStated {
     @Override
     protected void accrueVolatileProperties(Accrue<IProperty<?>> props) {
         props.acceptAll(ROTATION, ACTIVE);
+    }
+
+    @Override
+    protected L9ItemBlock initItemBlock() {
+        return new ItemBlockMachine(this);
     }
 
     @SuppressWarnings("deprecation")

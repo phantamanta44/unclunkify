@@ -1,0 +1,40 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "unclunkify:machine"
+  },
+  "variants": {
+    "type": {
+      "high_temp_furnace": {
+        "textures": {
+          "face": "unclunkify:blocks/machine/high_temp_furnace",
+          "face_active": "unclunkify:blocks/machine/high_temp_furnace_active"
+        }
+      },
+      "ore_crusher": {
+        "textures": {
+          "face": "unclunkify:blocks/machine/ore_crusher",
+          "face_active": "unclunkify:blocks/machine/ore_crusher_active"
+        }
+      }
+    },
+    "rotation": {
+      "north": {},
+      "east": {
+        "y": 90
+      },
+      "south": {
+        "y": 180
+      },
+      "west": {
+        "y": 270
+      }
+    },
+    "active": {
+      "true": {
+        "model": "unclunkify:machine_active"
+      },
+      "false": {}
+    }
+  }
+}

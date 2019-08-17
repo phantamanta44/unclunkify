@@ -1,0 +1,6 @@
+{
+  "parent": "unclunkify:block/machine",
+  "textures": {
+    "front": "#face_active"
+  }
+}

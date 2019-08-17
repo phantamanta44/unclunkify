@@ -1,5 +1,6 @@
 package xyz.phanta.unclunkify.item;
 
+import io.github.phantamanta44.libnine.client.model.ParameterizedItemModel;
 import io.github.phantamanta44.libnine.item.L9ItemSubs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -14,7 +15,7 @@ import xyz.phanta.unclunkify.constant.LangConst;
 import xyz.phanta.unclunkify.entity.EntityMiningExplosive;
 import xyz.phanta.unclunkify.init.UnclunkItems;
 
-public class ItemMisc extends L9ItemSubs {
+public class ItemMisc extends L9ItemSubs implements ParameterizedItemModel.IParamaterized {
 
     public ItemMisc() {
         super(LangConst.ITEM_MISC, Type.VALUES.length);
@@ -35,6 +36,11 @@ public class ItemMisc extends L9ItemSubs {
             return new ActionResult<>(EnumActionResult.SUCCESS, stack);
         }
         return super.onItemRightClick(world, player, hand);
+    }
+
+    @Override
+    public void getModelMutations(ItemStack stack, ParameterizedItemModel.Mutation m) {
+        m.mutate("type", Type.getForStack(stack).name());
     }
 
     public enum Type {
