@@ -24,6 +24,7 @@ import xyz.phanta.unclunkify.Unclunkify;
 import xyz.phanta.unclunkify.constant.LangConst;
 import xyz.phanta.unclunkify.init.UnclunkBlocks;
 import xyz.phanta.unclunkify.init.UnclunkGuis;
+import xyz.phanta.unclunkify.init.UnclunkSounds;
 import xyz.phanta.unclunkify.item.block.ItemBlockMachine;
 import xyz.phanta.unclunkify.tile.TileHighTempFurnace;
 import xyz.phanta.unclunkify.tile.TileOreCrusher;
@@ -102,30 +103,38 @@ public class BlockMachine extends L9BlockStated {
     public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand) {
         switch (state.getValue(TYPE)) {
             case HIGH_TEMP_FURNACE:
-            case ORE_CRUSHER: {
-                TileMachine tile = Objects.requireNonNull(getTileEntity(world, pos));
-                if (tile.isActive()) {
-                    Vec3d center = WorldUtils.getBlockCenter(pos);
-                    if (rand.nextDouble() < 0.1D) {
-                        world.playSound(center.x, center.y, center.z,
-                                SoundEvents.BLOCK_FURNACE_FIRE_CRACKLE, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
-                    }
-                    EnumFacing dir = tile.getFrontFace();
-                    Vec3d pPos = center.add(dir.getXOffset() * 0.52D, -0.125D - rand.nextDouble() * 0.25D, dir.getZOffset() * 0.52D);
-                    switch (dir.getAxis()) {
-                        case X:
-                            pPos = pPos.add(0D, 0D, rand.nextDouble() * 0.6D - 0.3D);
-                            break;
-                        case Z:
-                            pPos = pPos.add(rand.nextDouble() * 0.6D - 0.3D, 0D, 0D);
-                            break;
-                    }
-                    world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pPos.x, pPos.y, pPos.z, 0D, 0D, 0D);
-                    world.spawnParticle(EnumParticleTypes.FLAME, pPos.x, pPos.y, pPos.z, 0D, 0D, 0D);
-                }
+                playMachineEffect(world, pos, SoundEvents.BLOCK_FURNACE_FIRE_CRACKLE, rand);
                 break;
-            }
+            case ORE_CRUSHER:
+                playMachineEffect(world, pos, UnclunkSounds.MACHINE_CRUSHING, rand);
+                break;
         }
+    }
+
+    private void playMachineEffect(World world, BlockPos pos, SoundEvent sound, Random rand) {
+        TileMachine tile = Objects.requireNonNull(getTileEntity(world, pos));
+        if (tile.isActive()) {
+            Vec3d center = WorldUtils.getBlockCenter(pos);
+            if (rand.nextDouble() < 0.1D) {
+                world.playSound(center.x, center.y, center.z, sound, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
+            }
+            playFlameEffect(world, tile, center, rand);
+        }
+    }
+
+    private static void playFlameEffect(World world, TileMachine tile, Vec3d center, Random rand) {
+        EnumFacing dir = tile.getFrontFace();
+        Vec3d pPos = center.add(dir.getXOffset() * 0.52D, -0.125D - rand.nextDouble() * 0.25D, dir.getZOffset() * 0.52D);
+        switch (dir.getAxis()) {
+            case X:
+                pPos = pPos.add(0D, 0D, rand.nextDouble() * 0.6D - 0.3D);
+                break;
+            case Z:
+                pPos = pPos.add(rand.nextDouble() * 0.6D - 0.3D, 0D, 0D);
+                break;
+        }
+        world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pPos.x, pPos.y, pPos.z, 0D, 0D, 0D);
+        world.spawnParticle(EnumParticleTypes.FLAME, pPos.x, pPos.y, pPos.z, 0D, 0D, 0D);
     }
 
     public enum Type implements IStringSerializable {

@@ -1,0 +1,32 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "bpb",
+    "bfb",
+    "ixi"
+  ],
+  "key": {
+    "b": {
+      "type": "forge:ore_dict",
+      "ore": "ingotBrick"
+    },
+    "p": {
+      "item": "minecraft:piston"
+    },
+    "f": {
+      "item": "minecraft:furnace"
+    },
+    "i": {
+      "type": "forge:ore_dict",
+      "ore": "ingotIron"
+    },
+    "x": {
+      "item": "minecraft:lava_bucket",
+      "data": 0
+    }
+  },
+  "result": {
+    "item": "unclunkify:machine",
+    "data": 1
+  }
+}

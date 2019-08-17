@@ -1,9 +1,9 @@
 {
   "parent": "block/orientable",
   "textures": {
-    "top": "blocks/furnace_top",
     "front": "#face",
-    "side": "blocks/furnace_side",
-    "particle": "blocks/furnace_side"
+    "side": "unclunkify:blocks/machine/machine_side",
+    "top": "unclunkify:blocks/machine/machine_side",
+    "particle": "unclunkify:blocks/machine/machine_side"
   }
 }

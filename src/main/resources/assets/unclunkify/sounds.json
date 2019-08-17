@@ -1,0 +1,10 @@
+{
+  "unclunkify.machine.crushing": {
+    "sounds": [
+      "unclunkify:machine/crushing0",
+      "unclunkify:machine/crushing1",
+      "unclunkify:machine/crushing2",
+      "unclunkify:machine/crushing3"
+    ]
+  }
+}

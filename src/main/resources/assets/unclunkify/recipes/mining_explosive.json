@@ -1,0 +1,20 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "gi",
+    "ig"
+  ],
+  "key": {
+    "i": {
+      "type": "forge:ore_dict",
+      "ore": "nuggetIron"
+    },
+    "g": {
+      "item": "minecraft:gunpowder"
+    }
+  },
+  "result": {
+    "item": "unclunkify:misc",
+    "data": 0
+  }
+}

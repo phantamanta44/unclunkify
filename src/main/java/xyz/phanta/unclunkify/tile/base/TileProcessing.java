@@ -111,6 +111,7 @@ public abstract class TileProcessing<R extends IRcp<ItemStack, ItemStackInput, I
             if (burnTime.getInt() > 0) {
                 burnTime.postincrement(-1);
                 currentHeat = Math.min(currentHeat + 1, getMaxHeatTicks());
+                dirty = true;
             } else {
                 int newBurnTime = TileEntityFurnace.getItemBurnTime(fuelSlot.getStackInSlot());
                 if (newBurnTime > 0) {
