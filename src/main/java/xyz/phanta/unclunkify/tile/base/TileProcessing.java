@@ -92,7 +92,7 @@ public abstract class TileProcessing<R extends IRcp<ItemStack, ItemStackInput, I
     }
 
     public float getHeatFraction() {
-        return heat.getInt() / getMaxHeatTicks();
+        return heat.getInt() / (float)getMaxHeatTicks();
     }
 
     public float getWorkFraction() {
