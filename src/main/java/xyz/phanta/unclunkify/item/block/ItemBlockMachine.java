@@ -26,6 +26,7 @@ public class ItemBlockMachine extends L9ItemBlockStated implements Parameterized
         if (super.placeBlockAt(stack, player, world, pos, side, hitX, hitY, hitZ, newState)) {
             ((TileMachine)Objects.requireNonNull(world.getTileEntity(pos)))
                     .setFrontFace(player.getHorizontalFacing().getOpposite());
+            return true;
         }
         return false;
     }
