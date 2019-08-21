@@ -66,19 +66,21 @@ public class CommonProxy {
         for (SmeltingRecipe recipe : LibNine.PROXY.getRecipeManager().getRecipeList(SmeltingRecipe.class).recipes()) {
             ItemStack input = recipe.input().getMatcher().getVisual();
             ItemStack output = recipe.mapToOutput(input).getOutput();
-            Set<String> oreNames = Arrays.stream(OreDictionary.getOreIDs(output))
-                    .mapToObj(OreDictionary::getOreName)
-                    .filter(o -> o.startsWith("ingot"))
-                    .map(o -> o.substring(5))
-                    .collect(Collectors.toSet());
-            Arrays.stream(OreDictionary.getOreIDs(input))
-                    .mapToObj(OreDictionary::getOreName)
-                    .filter(o -> o.startsWith("ore"))
-                    .map(o -> o.substring(3))
-                    .filter(oreNames::contains)
-                    .findFirst()
-                    .map(o -> OreDictUtils.getStack("dust" + o, 2))
-                    .ifPresent(dust -> odrl.add(new OreCrushingRecipe(input, dust)));
+            if (!input.isEmpty() && !output.isEmpty()) {
+                Set<String> oreNames = Arrays.stream(OreDictionary.getOreIDs(output))
+                        .mapToObj(OreDictionary::getOreName)
+                        .filter(o -> o.startsWith("ingot"))
+                        .map(o -> o.substring(5))
+                        .collect(Collectors.toSet());
+                Arrays.stream(OreDictionary.getOreIDs(input))
+                        .mapToObj(OreDictionary::getOreName)
+                        .filter(o -> o.startsWith("ore"))
+                        .map(o -> o.substring(3))
+                        .filter(oreNames::contains)
+                        .findFirst()
+                        .map(o -> OreDictUtils.getStack("dust" + o, 2))
+                        .ifPresent(dust -> odrl.add(new OreCrushingRecipe(input, dust)));
+            }
         }
     }
 
