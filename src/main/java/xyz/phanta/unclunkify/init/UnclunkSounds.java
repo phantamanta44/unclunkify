@@ -11,7 +11,7 @@ public class UnclunkSounds {
 
     @InitMe
     public static void init() {
-        MACHINE_CRUSHING = Unclunkify.INSTANCE.newSoundEvent("machine.crushing");
+        MACHINE_CRUSHING = Unclunkify.INSTANCE.newSoundEvent("unclunkify.machine.crushing");
     }
 
 }
