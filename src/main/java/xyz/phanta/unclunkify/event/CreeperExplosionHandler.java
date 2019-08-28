@@ -27,10 +27,10 @@ public class CreeperExplosionHandler {
                     EntityItem dropped = Objects.requireNonNull(entity.entityDropItem(
                             new ItemStack(Items.GUNPOWDER, 1 + world.rand.nextInt(UnclunkConfig.creeperConfig.explodeDropMax)),
                             entity.getEyeHeight()));
-                    dropped.setVelocity(
-                            world.rand.nextGaussian() * 0.08D,
-                            0.08D + world.rand.nextGaussian() * 0.05D,
-                            world.rand.nextGaussian() * 0.08D);
+                    dropped.motionX = world.rand.nextGaussian() * 0.08D;
+                    dropped.motionY = 0.08D + world.rand.nextGaussian() * 0.05D;
+                    dropped.motionZ = world.rand.nextGaussian() * 0.08D;
+                    dropped.velocityChanged = true;
                 }
             }
         }
