@@ -21,7 +21,7 @@
       "ore": "ingotIron"
     },
     "x": {
-      "item": "minecraft:lava_bucket",
+      "item": "minecraft:iron_pickaxe",
       "data": 0
     }
   },
