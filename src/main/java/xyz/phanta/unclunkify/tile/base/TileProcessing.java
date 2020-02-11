@@ -6,6 +6,7 @@ import io.github.phantamanta44.libnine.recipe.IRcp;
 import io.github.phantamanta44.libnine.recipe.IRecipeList;
 import io.github.phantamanta44.libnine.recipe.input.ItemStackInput;
 import io.github.phantamanta44.libnine.recipe.output.ItemStackOutput;
+import io.github.phantamanta44.libnine.util.collection.Accrue;
 import io.github.phantamanta44.libnine.util.data.serialization.AutoSerialize;
 import io.github.phantamanta44.libnine.util.data.serialization.IDatum;
 import net.minecraft.item.Item;
@@ -19,7 +20,8 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import javax.annotation.Nullable;
 import java.util.Objects;
 
-public abstract class TileProcessing<R extends IRcp<ItemStack, ItemStackInput, ItemStackOutput>> extends TileMachine {
+public abstract class TileProcessing<R extends IRcp<ItemStack, ItemStackInput, ItemStackOutput>> extends TileMachine
+        implements DroppableInventory {
 
     @AutoSerialize
     private final L9AspectSlot inputSlot = new L9AspectSlot.Observable(
@@ -80,6 +82,22 @@ public abstract class TileProcessing<R extends IRcp<ItemStack, ItemStackInput, I
 
     public IItemHandlerModifiable getOutputSlot() {
         return outputSlot;
+    }
+
+    @Override
+    public void accrueDrops(Accrue<ItemStack> drops) {
+        ItemStack stack = inputSlot.getStackInSlot();
+        if (!stack.isEmpty()) {
+            drops.acceptAll(stack);
+        }
+        stack = fuelSlot.getStackInSlot();
+        if (!stack.isEmpty()) {
+            drops.acceptAll(stack);
+        }
+        stack = outputSlot.getStackInSlot();
+        if (!stack.isEmpty()) {
+            drops.acceptAll(stack);
+        }
     }
 
     public float getBurnFraction() {

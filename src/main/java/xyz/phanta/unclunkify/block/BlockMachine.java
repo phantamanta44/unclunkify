@@ -15,6 +15,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -28,9 +29,12 @@ import xyz.phanta.unclunkify.init.UnclunkSounds;
 import xyz.phanta.unclunkify.item.block.ItemBlockMachine;
 import xyz.phanta.unclunkify.tile.TileHighTempFurnace;
 import xyz.phanta.unclunkify.tile.TileOreCrusher;
+import xyz.phanta.unclunkify.tile.base.DroppableInventory;
 import xyz.phanta.unclunkify.tile.base.TileMachine;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 import java.util.function.Supplier;
@@ -97,6 +101,19 @@ public class BlockMachine extends L9BlockStated {
             state.getValue(TYPE).openGui(player, new WorldBlockPos(world, pos));
         }
         return true;
+    }
+
+    @Override
+    public void breakBlock(World world, BlockPos pos, IBlockState state) {
+        TileEntity tile = getTileEntity(world, pos);
+        if (tile instanceof DroppableInventory) {
+            List<ItemStack> drops = new ArrayList<>();
+            ((DroppableInventory)tile).accrueDrops(new Accrue<>(drops));
+            for (ItemStack stack : drops) {
+                WorldUtils.dropItem(world, pos, stack);
+            }
+        }
+        super.breakBlock(world, pos, state);
     }
 
     @Override
