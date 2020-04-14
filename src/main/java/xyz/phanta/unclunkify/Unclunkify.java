@@ -15,7 +15,7 @@ import xyz.phanta.unclunkify.item.ItemMisc;
 public class Unclunkify extends Virtue {
 
     public static final String MOD_ID = "unclunkify";
-    public static final String VERSION = "1.0.3";
+    public static final String VERSION = "1.0.4";
 
     @SuppressWarnings("NullableProblems")
     @Mod.Instance(MOD_ID)

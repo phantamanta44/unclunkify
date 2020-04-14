@@ -15,9 +15,4 @@ public class SlotTakeOnly extends SlotItemHandler {
         return false;
     }
 
-    @Override
-    public void putStack(ItemStack stack) {
-        // NO-OP
-    }
-
 }

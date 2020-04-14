@@ -195,18 +195,22 @@ public abstract class TileProcessing<R extends IRcp<ItemStack, ItemStackInput, I
             recipeDirty = false;
             boolean resetWork = false;
             ItemStack input = inputSlot.getStackInSlot();
-            R newRecipe = getRecipeList().findRecipe(input);
-            if (!Objects.equals(cachedRecipe, newRecipe)) {
-                cachedRecipe = newRecipe;
-                cachedOutput = newRecipe != null ? newRecipe.mapToOutput(input) : null;
+            if (input.isEmpty()) {
+                cachedRecipe = null;
+                cachedOutput = null;
                 resetWork = true;
-            } else if (cachedRecipe != null) {
-                ItemStackOutput newOutput = cachedRecipe.mapToOutput(input);
-                if (cachedOutput != newOutput) {
-                    cachedOutput = newOutput;
+            } else {
+                R newRecipe = getRecipeList().findRecipe(input);
+                if (!Objects.equals(cachedRecipe, newRecipe)) {
+                    cachedRecipe = newRecipe;
+                    cachedOutput = newRecipe != null ? newRecipe.mapToOutput(input) : null;
                     resetWork = true;
-                } else if (input.isEmpty()) {
-                    resetWork = true;
+                } else if (cachedRecipe != null) {
+                    ItemStackOutput newOutput = cachedRecipe.mapToOutput(input);
+                    if (cachedOutput != newOutput) {
+                        cachedOutput = newOutput;
+                        resetWork = true;
+                    }
                 }
             }
             recipeValid = cachedOutput != null && cachedOutput.isAcceptable(outputSlot.getStackInSlot());
